@@ -7,43 +7,29 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.target.targetcasestudy.domain.model.DealProductItemModel
 import com.target.targetcasestudy.domain.usecase.ExecuteDealUseCase
+import com.target.targetcasestudy.ui.state.DealControlState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-/*
 
 @HiltViewModel
-class DealProductViewModel @Inject constructor(private val executeDealApiUseCase: ExecuteDealUseCase) :
-    ViewModel() {
-    init {
-        getDealsApi()
-    }
+class DealProductViewModel @Inject constructor(
+    private val executeDealApiUseCase: ExecuteDealUseCase,
 
-    fun getDealsApi() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val dealList = executeDealApiUseCase.fetchAllDeals()
-            dealList.onSuccess {
-                Log.d(TAG, "list is $it")
-            }.onFailure {
-                Log.d(TAG, "error is $it")
-            }
-        }
-    }
+    ) : ViewModel() {
 
-    companion object{
-        private const val TAG = "DealProductViewModel"
-    }
-}*/
-
-@HiltViewModel
-class DealProductViewModel @Inject constructor(private val executeDealApiUseCase: ExecuteDealUseCase) :
-    ViewModel() {
-
-    private val _dealList = MutableLiveData<List<DealProductItemModel>>()
-    val dealList: LiveData<List<DealProductItemModel>> get() = _dealList
+    private val _dealControlState = MutableSharedFlow<DealControlState>()
+    fun getDealControlState() = _dealControlState.asSharedFlow()
 
     init {
+       init()
+    }
+
+    internal fun init() {
+        _dealControlState.tryEmit(DealControlState.Loading)
         getDealsApi()
     }
 
@@ -51,9 +37,24 @@ class DealProductViewModel @Inject constructor(private val executeDealApiUseCase
         viewModelScope.launch(Dispatchers.IO) {
             val dealList = executeDealApiUseCase.fetchAllDeals()
             dealList.onSuccess {
-                _dealList.postValue(it)  
+                _dealControlState.emit(DealControlState.FetchAllItems(it))
                 Log.d(TAG, "list is $it")
             }.onFailure {
+                _dealControlState.emit(DealControlState.Failure(throwable = it))
+                Log.d(TAG, "error is $it")
+            }
+        }
+    }
+
+    internal fun fetchItembyId(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _dealControlState.tryEmit(DealControlState.Loading)
+            val dealList = executeDealApiUseCase.fetchDealById(id)
+            dealList.onSuccess {
+                _dealControlState.emit(DealControlState.FetchItemById(it))
+                Log.d(TAG, "list is $it")
+            }.onFailure {
+                _dealControlState.emit(DealControlState.Failure(throwable = it))
                 Log.d(TAG, "error is $it")
             }
         }

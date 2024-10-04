@@ -1,5 +1,6 @@
 package com.target.targetcasestudy.domain.api.extra
 
+import com.target.targetcasestudy.data.di.BASE_URL
 import com.target.targetcasestudy.data.dto.Deal
 import com.target.targetcasestudy.data.dto.DealResponse
 import io.reactivex.Single
