@@ -1,4 +1,4 @@
-package com.target.targetcasestudy.data
+package com.target.targetcasestudy.data.local
 
 // TODO this can be deleted once you start fetching the data from the API
 object StaticData {
@@ -8,7 +8,8 @@ object StaticData {
       title = "Product 1",
       description = "This is product number 1",
       price = "$10.99",
-      aisle = "a1"
+      aisle = "a1",
+      imageUrl = "https://appstorage.target.com/app-data/native-tha-images/1.jpg"
     ),
     DealItem(
       id = 0,

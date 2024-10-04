@@ -1,46 +1,96 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/deal_list_item"
-  android:layout_width="match_parent"
-  android:layout_height="wrap_content"
-  android:layout_alignParentTop="true"
-  android:orientation="horizontal"
-  android:padding="5dp">
 
-  <LinearLayout
-    android:layout_width="wrap_content"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/deal_list_item"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:orientation="vertical">
+    android:layout_alignParentTop="true"
+    android:orientation="horizontal">
 
-    <ImageView
+
+  <ImageView
       android:id="@+id/deal_list_item_image_view"
       android:layout_width="@dimen/deal_list_item_image_size"
       android:layout_height="@dimen/deal_list_item_image_size"
+      android:layout_marginStart="12dp"
+      android:layout_marginTop="12dp"
+      android:layout_marginBottom="12dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      android:contentDescription="@string/item_image"
       android:src="@drawable/ic_launcher_foreground"
-      android:tint="@color/gray_color"/>
+      android:scaleType="fitCenter"
+      />
 
-  </LinearLayout>
-
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:orientation="vertical">
-
-    <TextView
-      android:id="@+id/deal_list_item_title"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textSize="18sp" />
-    <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="1dp"
-      android:background="@color/gray_color"></LinearLayout>
-    <TextView
-      android:id="@+id/deal_list_item_price"
+  <TextView
+      android:id="@+id/deal_list_item_sale_price"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:textSize="18sp" />
-  </LinearLayout>
+      android:layout_marginStart="16dp"
+      android:textColor="@color/colorPrimaryDark"
+      android:textSize="21sp"
+      android:textStyle="bold"
+      app:layout_constraintStart_toEndOf="@id/deal_list_item_image_view"
+      app:layout_constraintTop_toTopOf="@id/deal_list_item_image_view"
+      tools:text="$34.99" />
 
-</LinearLayout>
+  <TextView
+      android:id="@+id/deal_list_item_reg_price"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintBaseline_toBaselineOf="@id/deal_list_item_sale_price"
+      app:layout_constraintStart_toEndOf="@id/deal_list_item_sale_price"
+      app:layout_constraintTop_toTopOf="parent"
+      android:layout_marginStart="4dp"
+      android:textColor="@color/deep_gray_color"
+      android:textSize="12sp"
+      tools:text="reg $34.99" />
+
+  <TextView
+      android:id="@+id/deal_list_item_sell_mode"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      app:layout_constraintStart_toEndOf="@id/deal_list_item_image_view"
+      app:layout_constraintTop_toBottomOf="@id/deal_list_item_sale_price"
+      android:layout_marginStart="16dp"
+      android:textColor="@color/gray_color"
+      android:textSize="12sp"
+      tools:text="Online" />
+
+  <TextView
+      android:id="@+id/deal_list_item_title"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="16dp"
+      android:layout_marginTop="8dp"
+      android:textColor="@color/black_text_color"
+      android:textSize="14sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@id/deal_list_item_image_view"
+      app:layout_constraintTop_toBottomOf="@id/deal_list_item_sell_mode"
+      tools:text="Women's Long Sleeve Denim Jacket - Universal Thread™" />
+
+  <TextView
+      android:id="@+id/deal_list_item_availability"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginHorizontal="16dp"
+      android:layout_marginTop="8dp"
+      android:textColor="@color/gray_color"
+      android:textSize="12sp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toEndOf="@id/deal_list_item_image_view"
+      app:layout_constraintTop_toBottomOf="@id/deal_list_item_title"
+      tools:text="In stock in aisle W20" />
+
+  <View
+      android:id="@+id/divider"
+      android:layout_width="match_parent"
+      android:layout_height="1dp"
+      android:layout_marginStart="12dp"
+      android:background="@color/gray_color"
+      app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
