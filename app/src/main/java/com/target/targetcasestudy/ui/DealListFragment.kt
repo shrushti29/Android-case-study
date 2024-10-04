@@ -5,33 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-
-import com.target.targetcasestudy.R
 import com.target.targetcasestudy.databinding.FragmentDealListBinding
+import com.target.targetcasestudy.ui.viewModel.DealProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 /*
-class DealListFragment : Fragment() {
-
-  override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    val view =  inflater.inflate(R.layout.fragment_deal_list, container, false)
-
-    view.findViewById<RecyclerView>(R.id.recycler_view).layoutManager = LinearLayoutManager(requireContext())
-    view.findViewById<RecyclerView>(R.id.recycler_view).adapter = DealItemAdapter()
-
-    return view
-  }
-}
-*/
-
-
-
 
 @AndroidEntryPoint
 class DealListFragment : Fragment() {
@@ -45,5 +26,31 @@ class DealListFragment : Fragment() {
         binding.recyclerView.adapter = DealItemAdapter()
         return binding.root
 
+    }
+}
+*/
+
+
+@AndroidEntryPoint
+class DealListFragment : Fragment() {
+    private lateinit var binding: FragmentDealListBinding
+    private val viewModel: DealProductViewModel by viewModels()
+    private lateinit var adapter: DealItemAdapter
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentDealListBinding.inflate(inflater, container, false)
+
+        adapter = DealItemAdapter()
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = adapter
+
+        viewModel.dealList.observe(viewLifecycleOwner) { deals ->
+            adapter.setDeals(deals)
+        }
+
+        return binding.root
     }
 }
