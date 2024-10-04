@@ -1,14 +1,15 @@
 package com.target.targetcasestudy.ui.viewModel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.target.targetcasestudy.domain.usecase.ExecuteDealUseCase
 import com.target.targetcasestudy.ui.state.DealControlState
+import com.target.targetcasestudy.ui.state.DealItemControlState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,26 +19,29 @@ class DealProductViewModel @Inject constructor(
 
     ) : ViewModel() {
 
-    private val _dealControlState = MutableSharedFlow<DealControlState>()
-    fun getDealControlState() = _dealControlState.asSharedFlow()
+    private val _dealLiveData = MutableLiveData<DealControlState>()
+    private val _dealItemLiveData = MutableLiveData<DealItemControlState>()
+    fun getDealLiveData():LiveData<DealControlState> = _dealLiveData
+    fun getDealItemLiveData():LiveData<DealItemControlState> = _dealItemLiveData
 
     init {
        init()
     }
 
     internal fun init() {
-        _dealControlState.tryEmit(DealControlState.Loading)
+
         getDealsApi()
     }
 
     private fun getDealsApi() {
+        _dealLiveData.postValue(DealControlState.Loading)
         viewModelScope.launch(Dispatchers.IO) {
             val dealList = executeDealApiUseCase.fetchAllDeals()
             dealList.onSuccess {
-                _dealControlState.emit(DealControlState.FetchAllItems(it))
+                _dealLiveData.postValue(DealControlState.FetchAllItems(it))
                 Log.d(TAG, "list is $it")
             }.onFailure {
-                _dealControlState.emit(DealControlState.Failure(throwable = it))
+                _dealLiveData.postValue(DealControlState.Failure(throwable = it))
                 Log.d(TAG, "error is $it")
             }
         }
@@ -45,13 +49,13 @@ class DealProductViewModel @Inject constructor(
 
     internal fun fetchItemById(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            _dealControlState.tryEmit(DealControlState.Loading)
+            _dealItemLiveData.postValue(DealItemControlState.Loading)
             val dealList = executeDealApiUseCase.fetchDealById(id)
             dealList.onSuccess {
-                _dealControlState.emit(DealControlState.FetchItemById(it))
+                _dealItemLiveData.postValue(DealItemControlState.FetchItemById(it))
                 Log.d(TAG, "list is $it")
             }.onFailure {
-                _dealControlState.emit(DealControlState.Failure(throwable = it))
+                _dealItemLiveData.postValue(DealItemControlState.Failure(throwable = it))
                 Log.d(TAG, "error is $it")
             }
         }

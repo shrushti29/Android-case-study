@@ -7,17 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 
 import com.target.targetcasestudy.databinding.FragmentDealItemBinding
-import com.target.targetcasestudy.ui.state.DealControlState
+import com.target.targetcasestudy.ui.state.DealItemControlState
 import com.target.targetcasestudy.ui.viewModel.DealProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 
 
 @AndroidEntryPoint
@@ -40,9 +37,9 @@ class DealItemFragment : Fragment() {
     }
 
     private fun observeSharedFlow() {
-        viewModel.getDealControlState().onEach {
+        viewModel.getDealItemLiveData().observe(viewLifecycleOwner) {
             when (it) {
-                is DealControlState.FetchItemById -> {
+                is DealItemControlState.FetchItemById -> {
                     hideLoading()
                     it.item.run {
                         Glide.with(binding.dealProductImage.context).load(imageUrl)
@@ -68,14 +65,14 @@ class DealItemFragment : Fragment() {
                     }
                 }
 
-                is DealControlState.Loading -> {
+                is DealItemControlState.Loading -> {
                     showLoading()
 
                 }
 
                 else -> Unit
             }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }
     }
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()

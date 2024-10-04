@@ -9,7 +9,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,8 +20,6 @@ import com.target.targetcasestudy.ui.state.DealControlState
 import com.target.targetcasestudy.ui.state.OnDealClickListener
 import com.target.targetcasestudy.ui.viewModel.DealProductViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class DealListFragment : Fragment(), OnDealClickListener {
@@ -52,7 +49,7 @@ class DealListFragment : Fragment(), OnDealClickListener {
 
     private fun observeViewModelState() {
         binding.progressBar.isVisible = true
-        viewModel.getDealControlState().onEach { state ->
+        viewModel.getDealLiveData().observe(viewLifecycleOwner) { state ->
             when (state) {
                 is DealControlState.Loading -> {
                     showLoading()
@@ -68,9 +65,9 @@ class DealListFragment : Fragment(), OnDealClickListener {
                     showToast(state.throwable.message ?: "Something went wrong")
                 }
 
-                is DealControlState.FetchItemById -> Unit
+
             }
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }
     }
 
     private fun showLoading() {
@@ -96,10 +93,6 @@ class DealListFragment : Fragment(), OnDealClickListener {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.init()
 
-    }
 
 }
