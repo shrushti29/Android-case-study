@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
-        binding.toolbar.setupWithNavController(navController,appBarConfiguration)
+        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
 
         binding.toolbar.setNavigationOnClickListener {
             navController.navigateUp()
@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
 
 
 }

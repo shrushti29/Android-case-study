@@ -1,11 +1,8 @@
 package com.target.targetcasestudy.ui.viewModel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.target.targetcasestudy.domain.model.DealProductItemModel
 import com.target.targetcasestudy.domain.usecase.ExecuteDealUseCase
 import com.target.targetcasestudy.ui.state.DealControlState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -46,7 +43,7 @@ class DealProductViewModel @Inject constructor(
         }
     }
 
-    internal fun fetchItembyId(id: Int) {
+    internal fun fetchItemById(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             _dealControlState.tryEmit(DealControlState.Loading)
             val dealList = executeDealApiUseCase.fetchDealById(id)

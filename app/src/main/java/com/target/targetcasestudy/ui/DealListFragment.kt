@@ -64,7 +64,7 @@ class DealListFragment : Fragment(), OnDealClickListener {
 
                 is DealControlState.Failure -> {
                     hideLoading()
-                    showToast(state.throwable.message?:"Something went wrong")
+                    showToast(state.throwable.message ?: "Something went wrong")
                 }
 
                 is DealControlState.FetchItemById -> Unit
@@ -90,6 +90,7 @@ class DealListFragment : Fragment(), OnDealClickListener {
             )
         )
     }
+
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
