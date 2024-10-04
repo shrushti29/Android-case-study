@@ -1,4 +1,4 @@
-package com.target.targetcasestudy.ui
+package com.target.targetcasestudy.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.target.targetcasestudy.R
 import com.target.targetcasestudy.databinding.FragmentDealListBinding
 import com.target.targetcasestudy.domain.model.DealProductItemModel
+import com.target.targetcasestudy.ui.adapter.DealItemAdapter
 import com.target.targetcasestudy.ui.state.DealControlState
 import com.target.targetcasestudy.ui.state.OnDealClickListener
 import com.target.targetcasestudy.ui.viewModel.DealProductViewModel
