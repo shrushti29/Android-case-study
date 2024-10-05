@@ -39,11 +39,10 @@ import com.target.targetcasestudy.ui.compose.viewModel.DealProductComposeViewMod
 import com.target.targetcasestudy.ui.state.DealItemControlState
 
 
-@SuppressLint("UnrememberedMutableState")
+
 @Composable
 fun ProductDetailScreen(id: Int?) {
     val viewModel: DealProductComposeViewModel = hiltViewModel()
-
     LaunchedEffect(key1 = id) {
         id?.let {
             viewModel.fetchItemById(id)
@@ -94,8 +93,9 @@ fun ProductDetailItem(item: DealProductItemModel, onItemClick: () -> Unit) {
 
         Column(
             verticalArrangement = Arrangement.spacedBy(4.dp),
-            modifier = Modifier.padding(bottom = 80.dp).
-            verticalScroll(rememberScrollState())
+            modifier = Modifier
+                .padding(bottom = 80.dp)
+                .verticalScroll(rememberScrollState())
         ) {
             AsyncImage(
                 model = item.imageUrl, contentDescription = "", modifier = Modifier

@@ -44,7 +44,7 @@ fun MainComposable() {
             colors = TopAppBarColors(
                 containerColor = Color.White,
                 titleContentColor = Color.Black,
-                navigationIconContentColor = Color.Red,
+                navigationIconContentColor = Color(0xFFAA0000),
                 actionIconContentColor = Color.Transparent,
                 scrolledContainerColor = Color.Transparent
             ),
