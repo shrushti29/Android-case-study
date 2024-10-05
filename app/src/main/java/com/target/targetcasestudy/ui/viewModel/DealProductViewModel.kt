@@ -25,15 +25,12 @@ class DealProductViewModel @Inject constructor(
     fun getDealItemLiveData():LiveData<DealItemControlState> = _dealItemLiveData
 
     init {
-       init()
-    }
-
-    internal fun init() {
-
         getDealsApi()
     }
 
-    private fun getDealsApi() {
+
+
+     fun getDealsApi() {
         _dealLiveData.postValue(DealControlState.Loading)
         viewModelScope.launch(Dispatchers.IO) {
             val dealList = executeDealApiUseCase.fetchAllDeals()
