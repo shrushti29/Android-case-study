@@ -8,6 +8,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.target.targetcasestudy.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+//have currently made
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
