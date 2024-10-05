@@ -31,12 +31,11 @@ class DealProductComposeViewModel @Inject constructor(
         init()
     }
 
-    internal fun init() {
+    private fun init() {
         getDealsApi()
     }
 
     private fun getDealsApi() {
-
         viewModelScope.launch(Dispatchers.IO) {
             val dealList = executeDealApiUseCase.fetchAllDeals()
             dealList.onSuccess {
@@ -51,6 +50,7 @@ class DealProductComposeViewModel @Inject constructor(
 
     internal fun fetchItemById(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
+            _dealItemStateFlow.emit(DealItemControlState.Loading)
             val dealList = executeDealApiUseCase.fetchDealById(id)
             dealList.onSuccess {
                 _dealItemStateFlow.emit(DealItemControlState.FetchItemById(it))
