@@ -13,6 +13,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * viewmodel associated with fragment i.e xml  screen impl
+ * **/
 @HiltViewModel
 class DealProductViewModel @Inject constructor(
     private val executeDealApiUseCase: ExecuteDealUseCase,

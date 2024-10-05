@@ -23,6 +23,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.rememberNavController
 import com.target.targetcasestudy.R
 
+/**
+ * main screen for compose screen impl
+ * **/
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainComposable() {

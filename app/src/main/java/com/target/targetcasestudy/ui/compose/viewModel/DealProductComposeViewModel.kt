@@ -14,6 +14,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * viewmodel associated with compose screen impl
+ * **/
 @HiltViewModel
 class DealProductComposeViewModel @Inject constructor(
     private val executeDealApiUseCase: ExecuteDealUseCase,
