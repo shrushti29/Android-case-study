@@ -48,8 +48,8 @@ class DealProductViewModel @Inject constructor(
     }
 
     internal fun fetchItemById(id: Int) {
+        _dealItemLiveData.postValue(DealItemControlState.Loading)
         viewModelScope.launch(Dispatchers.IO) {
-            _dealItemLiveData.postValue(DealItemControlState.Loading)
             val dealList = executeDealApiUseCase.fetchDealById(id)
             dealList.onSuccess {
                 _dealItemLiveData.postValue(DealItemControlState.FetchItemById(it))
