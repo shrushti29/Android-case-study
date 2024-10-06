@@ -39,27 +39,28 @@ import com.target.targetcasestudy.ui.state.DealControlState
 @Composable
 fun DetailsListScreen(state: DealControlState, onItemClick: (id: Int) -> Unit) {
     val context = LocalContext.current
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        when (state) {
-            is DealControlState.FetchAllItems -> items(state.items.size) {
-                DealListItem(dealItem = state.items[it], onItemClick)
-            }
-
-            is DealControlState.Loading -> item {
-                Loader()
-
-            }
-
-            is DealControlState.Failure -> {
-                item {
-                    ShowToast(
-                        message = state.throwable.message ?: "Something went wrong",
-                        context = context
-                    )
+    when (state) {
+        is DealControlState.FetchAllItems -> {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(state.items.size) {
+                    DealListItem(dealItem = state.items[it], onItemClick)
                 }
             }
+        }
+
+        is DealControlState.Loading -> {
+            Loader()
+
+        }
+
+        is DealControlState.Failure -> {
+            ShowToast(
+                message = state.throwable.message ?: "Something went wrong",
+                context = context
+            )
+
         }
 
     }
